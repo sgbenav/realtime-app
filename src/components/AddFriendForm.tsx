@@ -15,18 +15,18 @@ type FormData = z.infer<typeof addFriendValidator>
 export default function AddFriendFormProps({}: AddFriendFormProps) {
 	const [success, setSuccess] = useState<boolean>(false)
 
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(addFriendValidator)
-  })
+	const {
+		register,
+		handleSubmit,
+		setError,
+		formState: { errors },
+	} = useForm<FormData>({
+		resolver: zodResolver(addFriendValidator),
+	})
 
-  function onSubmit(data: FormData) {
-    addFriend(data.email)
-  }
+	function onSubmit(data: FormData) {
+		addFriend(data.email)
+	}
 
 	async function addFriend(email: string) {
 		try {
@@ -36,17 +36,20 @@ export default function AddFriendFormProps({}: AddFriendFormProps) {
 				email: validatedEmail,
 			})
 
-      setSuccess(true)
+			setSuccess(true)
 		} catch (error) {
-      if(error instanceof z.ZodError) {
-        setError('email', {message: error.message})
-      }
-      if(error instanceof AxiosError) {
-        setError('email', {message: error.response?.data})
-      }
+			if (error instanceof z.ZodError) {
+				setError('email', { message: error.message })
+				return
+			}
 
-      setError('email', {message: 'Something went wrong.'})
-    }
+			if (error instanceof AxiosError) {
+				setError('email', { message: error.response?.data })
+				return
+			}
+
+			setError('email', { message: 'Something went wrong.' })
+		}
 	}
 
 	return (
@@ -59,7 +62,7 @@ export default function AddFriendFormProps({}: AddFriendFormProps) {
 			</label>
 			<div className="mt-2 flex gap-4">
 				<input
-          {...register('email')}
+					{...register('email')}
 					type="text"
 					name="email"
 					id="email"
@@ -68,8 +71,10 @@ export default function AddFriendFormProps({}: AddFriendFormProps) {
 				/>
 				<Button>Add</Button>
 			</div>
-      <p className='mt-1 text-sm text-red-600'>{errors.email?.message}</p>
-      <p className='mt-1 text-sm text-green-600'>{success && 'Friend request sent!'}</p>
+			<p className="mt-1 text-sm text-red-600">{errors.email?.message}</p>
+			<p className="mt-1 text-sm text-green-600">
+				{success && 'Friend request sent!'}
+			</p>
 		</form>
 	)
 }
