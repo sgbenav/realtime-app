@@ -33,9 +33,9 @@ export async function POST(req: Request) {
 			return new Response('No friend request', { status: 400 })
 		}
 
-			db.sadd(`user:${session.user.id}:friends`, idToAdd),
-			db.sadd(`user:${idToAdd}:friends`, session.user.id),
-			db.srem(`user:${session.user.id}:incoming_friend_requests`, idToAdd)
+		db.sadd(`user:${session.user.id}:friends`, idToAdd),
+		db.sadd(`user:${idToAdd}:friends`, session.user.id),
+		db.srem(`user:${session.user.id}:incoming_friend_requests`, idToAdd)
 
 		return new Response('Success', { status: 200 })
 	} catch (error) {
