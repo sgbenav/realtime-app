@@ -16,6 +16,9 @@ export default function FriendRequestOptions({
 	const [unseenRequestCount, setUnseenRequestCount] = useState<number>(
 		initialUnseenRequestCount,
 	)
+
+	useEffect(() => {}, [sessionId])
+  
 	return (
 		<Link
 			href="/dashboard/requests"
