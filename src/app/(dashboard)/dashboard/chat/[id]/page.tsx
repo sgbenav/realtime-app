@@ -51,6 +51,7 @@ export default async function Chat({ params }: ChatProps) {
 		'get',
 		`user:${chatPartnerId}`,
 	)) as string
+	
 	const chatPartner = JSON.parse(chatPartnerRaw) as User
 	const initialMessages = await getChatMessages(id)
 
