@@ -53,13 +53,13 @@ export async function POST(req: Request) {
 		const message = messageValidator.parse(messageData)
 
 		// notify all connected chat room clients
-		pusherServer.trigger(
+		await pusherServer.trigger(
 			toPusherKey(`chat:${chatId}`),
 			'incoming_message',
 			message,
-		),
+		)
 
-		pusherServer.trigger(
+		await pusherServer.trigger(
 			toPusherKey(`user:${friendId}:chats`),
 			'new_message',
 			{
@@ -67,14 +67,13 @@ export async function POST(req: Request) {
 				senderImg: sender.image,
 				senderName: sender.name,
 			},
-		),
+		)
 
-		// all validations passed, send message
-
-			await db.zadd(`chat:${chatId}:messages`, {
-				score: timestamp,
-				member: JSON.stringify(message),
-			})
+		// all valid, send the message
+		await db.zadd(`chat:${chatId}:messages`, {
+			score: timestamp,
+			member: JSON.stringify(message),
+		})
 
 		return new Response('Success', { status: 200 })
 	} catch (error) {
