@@ -14,24 +14,24 @@ interface ChatProps {
 }
 
 async function getChatMessages(chatId: string) {
-  try {
-    const results: string[] = await fetchRedis(
-      'zrange',
-      `chat:${chatId}:messages`,
-      0,
-      -1
-    )
+	try {
+		const results: string[] = await fetchRedis(
+			'zrange',
+			`chat:${chatId}:messages`,
+			0,
+			-1,
+		)
 
-    const dbMessages = results.map((message) => JSON.parse(message) as Message)
+		const dbMessages = results.map((message) => JSON.parse(message) as Message)
 
-    const reversedDbMessages = dbMessages.reverse()
+		const reversedDbMessages = dbMessages.reverse()
 
-    const messages = messageArrayValidator.parse(reversedDbMessages)
+		const messages = messageArrayValidator.parse(reversedDbMessages)
 
-    return messages
-  } catch (error) {
-    notFound()
-  }
+		return messages
+	} catch (error) {
+		notFound()
+	}
 }
 
 export default async function Chat({ params }: ChatProps) {
@@ -62,6 +62,7 @@ export default async function Chat({ params }: ChatProps) {
 						<div className="relative w-8 sm:w-12 h-8 sm:h-12">
 							<Image
 								fill
+								sizes="100%"
 								referrerPolicy="no-referrer"
 								src={chatPartner.image}
 								alt={`${chatPartner.name} profile picture`}

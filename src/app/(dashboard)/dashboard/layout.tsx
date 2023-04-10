@@ -9,7 +9,7 @@ import SignOutButton from '@/components/SignOutButton'
 import FriendRequestOptions from '@/components/FriendRequestOptions'
 import { fetchRedis } from '@/helpers/redis'
 import { getFriendsByUserId } from '@/helpers/getFriendsByUserId'
-import ChatList from '@/components/ChatList'
+import SidebarChatList from '@/components/SidebarChatList'
 
 export const metadata = {
 	title: 'FriendZone | Dashboard',
@@ -57,7 +57,7 @@ export default async function DashboardLayout({
 				<nav className="flex flex-1 flex-col">
 					<ul role="list" className="flex flex-1 flex-col gap-y-7">
 						<li>
-							<ChatList sessionId={session.user.id} friends={friends} />
+							<SidebarChatList sessionId={session.user.id} friends={friends} />
 						</li>
 						<li>
 							<div className="text-xs font-semibold leading-6 text-gray-400">
@@ -95,6 +95,7 @@ export default async function DashboardLayout({
 								<div className="relative h-8 w-8 bg-gray-50">
 									<Image
 										fill
+										sizes="100%"
 										referrerPolicy="no-referrer"
 										className="rounded-full"
 										src={session.user.image || ''}
