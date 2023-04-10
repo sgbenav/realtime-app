@@ -32,7 +32,7 @@ export default function SidebarChatList({
 		const newFriendHandler = () => {
 			router.refresh()
 		}
-		console.log('HERE')
+
     const chatHandler = (message: ExtendedMessage) => {
       const shouldNotify =
         pathname !==
