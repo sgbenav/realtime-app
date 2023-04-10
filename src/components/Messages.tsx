@@ -28,17 +28,24 @@ export default function Messages({
 		setMessages((prev) => [message, ...prev])
 	}
 
-	useEffect(() => {
-		pusherClient.subscribe(toPusherKey(`chat:${chatId}`))
-		pusherClient.bind('incoming_message', messageHandler)
+  useEffect(() => {
+    pusherClient.subscribe(
+      toPusherKey(`chat:${chatId}`)
+    )
 
-		return () => {
-			pusherClient.unsubscribe(
-				toPusherKey(`user:${sessionId}:incoming_message`),
-			)
-			pusherClient.unbind('incoming_message', messageHandler)
-		}
-	}, [chatId, sessionId])
+    const messageHandler = (message: Message) => {
+      setMessages((prev) => [message, ...prev])
+    }
+
+    pusherClient.bind('incoming_message', messageHandler)
+
+    return () => {
+      pusherClient.unsubscribe(
+        toPusherKey(`chat:${chatId}`)
+      )
+      pusherClient.unbind('incoming_message', messageHandler)
+    }
+  }, [chatId])
 
 	const formatTimestamp = (timestamp: number) => {
 		return format(timestamp, 'HH:mm')
