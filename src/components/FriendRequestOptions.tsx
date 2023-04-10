@@ -1,5 +1,7 @@
 'use client'
 
+import { pusherClient } from '@/lib/pusher'
+import { toPusherKey } from '@/lib/utils'
 import { User } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -17,8 +19,24 @@ export default function FriendRequestOptions({
 		initialUnseenRequestCount,
 	)
 
-	useEffect(() => {}, [sessionId])
-  
+	function friendRequestHandler() {
+		setUnseenRequestCount((prev) => prev + 1)
+	}
+
+	useEffect(() => {
+		pusherClient.subscribe(
+			toPusherKey(`user:${sessionId}:incoming_friend_requests`),
+		)
+		pusherClient.bind('incoming_friend_requests', friendRequestHandler)
+
+		return () => {
+			pusherClient.unsubscribe(
+				toPusherKey(`user:${sessionId}:incoming_friend_requests`),
+			)
+			pusherClient.unbind('incoming_friend_requests', friendRequestHandler)
+		}
+	}, [])
+
 	return (
 		<Link
 			href="/dashboard/requests"
