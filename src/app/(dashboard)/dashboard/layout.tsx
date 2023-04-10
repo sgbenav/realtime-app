@@ -13,7 +13,7 @@ import SidebarChatList from '@/components/SidebarChatList'
 import MobileChatLayout from '@/components/MobileChatLayout'
 
 export const metadata = {
-	title: 'FriendZone | Dashboard',
+	title: 'ChatZone | Dashboard',
 	description: 'Your dashboard',
 }
 

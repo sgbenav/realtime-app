@@ -3,7 +3,7 @@ import './globals.css'
 
 // Done after the video and optional: add page metadata
 export const metadata = {
-	title: 'FriendZone | Home',
+	title: 'ChatZone | Home',
 	description: 'Welcome to the FriendZone',
 }
 
